@@ -8,4 +8,4 @@
   data on the client side
 
 - Automatic static optimizaion
--
+- SWR (stale-while-revalidate): React hooks for data fetching
