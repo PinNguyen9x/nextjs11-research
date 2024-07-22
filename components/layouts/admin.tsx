@@ -1,18 +1,15 @@
 import Link from 'next/link'
 import * as React from 'react'
 import { Auth } from '../common'
+import { LayoutProps } from '@/models/common'
 
-export interface IAppProps {
-  children: React.ReactNode
-}
-
-export function App({ children }: IAppProps) {
+export function AdminLayout({ children }: LayoutProps) {
   return (
     <Auth>
       <h1>Admin layout</h1>
       <div>Sidebar</div>
-      <Link href="/admin/posts">Sidebar</Link>
-      <Link href="/admin/posts/create">Sidebar</Link>
+      <Link href="/">Home</Link>
+      <Link href="/about">About</Link>
       <div>{children}</div>
     </Auth>
   )

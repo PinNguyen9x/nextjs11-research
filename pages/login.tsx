@@ -31,7 +31,7 @@ export default function LoginPage(props: LoginPageProps) {
   }
   return (
     <div>
-      <h1>About Page</h1>
+      <h1>Login Page</h1>
       <p>Profile:{JSON.stringify(profile || {}, null, 4)}</p>
       <button onClick={handleLoginClick}>Login</button>
       <button onClick={getProfile}>Get Profile</button>

@@ -14,6 +14,9 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
     revalidateOnFocus: false,
     ...options,
   })
+  console.log({ profile, error })
+
+  const firstLoading = profile === undefined && error === undefined
   // khong su dung try catch o day de cho cho nao su dung thi handle
   async function login() {
     await authApi.login({
@@ -26,5 +29,5 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
     await authApi.logout()
     await mutate({}, false)
   }
-  return { profile, error, login, logout }
+  return { profile, error, login, logout, firstLoading }
 }
