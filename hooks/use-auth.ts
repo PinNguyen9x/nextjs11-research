@@ -1,6 +1,6 @@
 import authApi from '@/api/auth-api'
 import useSWR from 'swr'
-import { PublicConfiguration } from 'swr/dist/types'
+import { PublicConfiguration } from 'swr/dist/_internal'
 // Auth -> protected page
 // <Auth>{children}</Auth>
 export function useAuth(options?: Partial<PublicConfiguration>) {
