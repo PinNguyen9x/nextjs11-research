@@ -1,8 +1,10 @@
-import * as React from "react";
+import { Box } from '@mui/material'
+import React from 'react'
 
-export interface IHeaderProps {}
-
-export default function Header(props: IHeaderProps) {
-  console.log("Render Header");
-  return <div>Header</div>;
+export function Header() {
+  return (
+    <Box component="header" sx={{ py: 2, textAlign: 'center' }}>
+      Header
+    </Box>
+  )
 }
