@@ -11,14 +11,26 @@ export const theme = createTheme({
     error: {
       main: '#f44336',
     },
-    warning: {
-      main: '#ff9800',
-    },
-    info: {
-      main: '#2196f3',
-    },
-    success: {
-      main: '#4caf50',
+  },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthSm: {
+          maxWidth: '680px', // default 680px
+          '@media (min-width: 600px)': {
+            maxWidth: '680px',
+          },
+        },
+        maxWidthMd: {
+          maxWidth: '860px', // default 860px
+          '@media (min-width: 900px)': {
+            maxWidth: '860px',
+          },
+        },
+      },
+      defaultProps: {
+        maxWidth: 'md',
+      },
     },
   },
 })
