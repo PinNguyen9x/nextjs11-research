@@ -13,7 +13,10 @@ export function HeaderDesktop(props: HedarDesktopProps) {
         <Stack direction="row" justifyContent="flex-end">
           {ROUTE_LIST.map((route) => (
             <Link href={route.path} key={route.label}>
-              <MuiLink sx={{ ml: 2 }} className={clsx({ active: router.pathname === route.path })}>
+              <MuiLink
+                sx={{ ml: 2, fontWeight: 'medium' }}
+                className={clsx({ active: router.pathname === route.path })}
+              >
                 {route.label}
               </MuiLink>
             </Link>
