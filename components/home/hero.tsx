@@ -28,7 +28,7 @@ export function HeroSection() {
               minWidth: '240px',
               boxShadow: '-5px 13px',
               color: 'secondary.light',
-              borderRadius: '60%',
+              borderRadius: '50%',
             }}
           >
             <Image src={avatar} layout="responsive" alt="hero image" />
