@@ -7,7 +7,7 @@ export function HeroSection() {
   return (
     <Box component={'section'} sx={{ paddingTop: 18, paddingBottom: 9 }}>
       <Container>
-        <Stack pacing={8} direction="row" justifyContent="left-start">
+        <Stack spacing={8} direction="row" justifyContent="left-start">
           <Box>
             <Typography component="h1" variant="h3" fontWeight={'bold'} mb={5}>
               Hi, I am John,
