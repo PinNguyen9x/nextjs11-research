@@ -1,12 +1,13 @@
 import { MainLayout } from '@/components/layouts'
 import { Box } from '@mui/material'
 import { NextPageWithLayout } from '../models'
-import { HeroSection } from '@/components/home'
+import { HeroSection, RecentPost } from '@/components/home'
 
 const Home: NextPageWithLayout = () => {
   return (
     <Box>
       <HeroSection />
+      <RecentPost />
     </Box>
   )
 }

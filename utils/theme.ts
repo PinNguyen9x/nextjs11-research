@@ -15,6 +15,9 @@ export let theme = createTheme({
     error: {
       main: '#f44336',
     },
+    text: {
+      primary: '#21243D',
+    },
   },
   components: {
     MuiContainer: {

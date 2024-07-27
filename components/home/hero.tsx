@@ -1,8 +1,6 @@
+import avatar from '@/images/avatar.png'
 import { Box, Button, Container, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
-import * as React from 'react'
-import avatar from '@/images/avatar.png'
-import { pbkdf2 } from 'crypto'
 
 export function HeroSection() {
   return (
