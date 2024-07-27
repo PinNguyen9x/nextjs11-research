@@ -2,14 +2,20 @@ import { Box, Button, Container, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
 import * as React from 'react'
 import avatar from '@/images/avatar.png'
+import { pbkdf2 } from 'crypto'
 
 export function HeroSection() {
   return (
-    <Box component={'section'} sx={{ paddingTop: 18, paddingBottom: 9 }}>
+    <Box component={'section'} pt={{ xs: 4, md: 7 }} pb={{ xs: 7, md: 9 }}>
       <Container>
-        <Stack spacing={8} direction="row" justifyContent="left-start">
+        <Stack
+          spacing={8}
+          direction={{ xs: 'column-reverse', md: 'row' }}
+          alignItems={{ xs: 'center', md: 'flex-start' }}
+          textAlign={{ xs: 'center', md: 'left' }}
+        >
           <Box>
-            <Typography component="h1" variant="h3" fontWeight={'bold'} mb={5}>
+            <Typography component="h1" variant="h3" fontWeight={'bold'} mb={{ xs: 3.5, md: 5 }}>
               Hi, I am John,
               <br />
               Creative Technologist
@@ -31,7 +37,7 @@ export function HeroSection() {
               borderRadius: '50%',
             }}
           >
-            <Image src={avatar} layout="responsive" alt="hero image" />
+            <Image src={avatar} layout="responsive" alt="avatar" />
           </Box>
         </Stack>
       </Container>
