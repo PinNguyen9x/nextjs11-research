@@ -7,8 +7,8 @@ export function FeatureWork() {
     {
       id: '1',
       title: 'Designing Dashboards',
-      thimbnailUrl:
-        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722145511/Rectangle_30_1_jbph1i.jpg',
+      thumbnailUrl:
+        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722149824/thumnail3_rzemwy.jpg',
       tagList: ['Dashboard'],
       fullDescription: '',
       createdAt: '1722091716231',
@@ -19,8 +19,8 @@ export function FeatureWork() {
     {
       id: '2',
       title: 'Vibrant Portraits of 2020',
-      thimbnailUrl:
-        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722145512/Rectangle_32_1_vqysdp.jpg',
+      thumbnailUrl:
+        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722149824/thumnail2_ieuan1.jpg',
       tagList: ['Illustration'],
       fullDescription: '',
       createdAt: '1722091716231',
@@ -31,8 +31,8 @@ export function FeatureWork() {
     {
       id: '3',
       title: '36 Days of Malayalam type',
-      thimbnailUrl:
-        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722145511/Rectangle_30_1_jbph1i.jpg',
+      thumbnailUrl:
+        'https://res.cloudinary.com/dkbq0asaw/image/upload/v1722149823/thumnail1_vcp4gw.jpg',
       tagList: ['Typography'],
       fullDescription: '',
       createdAt: '1722091716231',
@@ -44,7 +44,9 @@ export function FeatureWork() {
   return (
     <Box component="section" pt={2} pb={4}>
       <Container>
-        <Typography variant="h5">Feature Works</Typography>
+        <Typography variant="h5" mb={4}>
+          Feature Works
+        </Typography>
         <WorkList workList={workList} />
       </Container>
     </Box>
