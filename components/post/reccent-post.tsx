@@ -6,20 +6,22 @@ import { Post } from '@/models'
 export function RecentPost() {
   const postList: Post[] = [
     {
+      slug: '',
       id: '1',
       title: 'Making a design system from scratch',
       tagList: ['Design', 'Patterns'],
       description:
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-      publishedDate: '1722091716231',
+      publishedDate: '2024-07-29T12:00:00Z',
     },
     {
+      slug: '',
       id: '2',
       title: 'Creating pixel perfect icons in Figma',
       tagList: ['Figma', 'Icon Design'],
       description:
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-      publishedDate: '1722091716231',
+      publishedDate: '2024-07-29T12:00:00Z',
     },
   ]
   return (
