@@ -1,7 +1,14 @@
 import { Post } from '@/models'
 import { getPostList } from '@/utils/posts'
+import { Container } from '@mui/material'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
-import { useRouter } from 'next/router'
+import rehypeDocument from 'rehype-document'
+import rehypeFormat from 'rehype-format'
+import rehypeStringify from 'rehype-stringify'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+
+import { unified } from 'unified'
 
 export interface BlogDetailPageProps {
   post: Post
@@ -9,11 +16,12 @@ export interface BlogDetailPageProps {
 
 export default function BlogDetailPage({ post }: BlogDetailPageProps) {
   return (
-    <div>
+    <Container>
       <h1>Post detail page</h1>
       <p>{post.title}</p>
       <p>{post.author?.name}</p>
-    </div>
+      <div dangerouslySetInnerHTML={{ __html: post.htmlContent || '' }} />
+    </Container>
   )
 }
 
@@ -41,6 +49,15 @@ export const getStaticProps: GetStaticProps<BlogDetailPageProps> = async (
   const postList = await getPostList()
   const post = postList.find((x: Post) => x.slug === slug)
   if (!post) return { notFound: true }
+  // convert from markdown to html
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeDocument, { title: 'Blog Detail Page' })
+    .use(rehypeFormat)
+    .use(rehypeStringify)
+    .process(post.mdContent || '')
+  post.htmlContent = file.toString()
   return {
     props: {
       post,
