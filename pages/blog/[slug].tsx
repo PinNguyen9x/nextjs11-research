@@ -2,11 +2,14 @@ import { Post } from '@/models'
 import { getPostList } from '@/utils/posts'
 import { Container } from '@mui/material'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeDocument from 'rehype-document'
 import rehypeFormat from 'rehype-format'
+import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
+import remarkToc from 'remark-toc'
 
 import { unified } from 'unified'
 
@@ -52,7 +55,10 @@ export const getStaticProps: GetStaticProps<BlogDetailPageProps> = async (
   // convert from markdown to html
   const file = await unified()
     .use(remarkParse)
+    .use(remarkToc, { heading: 'agenda.*' })
     .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, { behavior: 'wrap' })
     .use(rehypeDocument, { title: 'Blog Detail Page' })
     .use(rehypeFormat)
     .use(rehypeStringify)
