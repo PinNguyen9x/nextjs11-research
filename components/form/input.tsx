@@ -25,6 +25,7 @@ export function InputField({
   return (
     <TextField
       fullWidth
+      margin="normal"
       size="small"
       name={name}
       label={label}
