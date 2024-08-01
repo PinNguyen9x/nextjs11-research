@@ -17,6 +17,7 @@ export async function getPostList() {
       id: fileName,
       slug: data.slug,
       title: data.title,
+      thumbnailUrl: data.image,
       author: {
         name: data.author,
         avatarUrl: data.author_image_url,
