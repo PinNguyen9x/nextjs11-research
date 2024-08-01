@@ -2,6 +2,7 @@ import authApi from '@/api/auth-api'
 import * as React from 'react'
 import { useAuth } from '../hooks'
 import { useRouter } from 'next/router'
+import { LoginForm } from '@/components/auth'
 
 export interface LoginPageProps {}
 
@@ -45,6 +46,7 @@ export default function LoginPage(props: LoginPageProps) {
       >
         Go to about
       </button>
+      <LoginForm />
     </div>
   )
 }
