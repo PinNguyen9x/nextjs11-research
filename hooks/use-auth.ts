@@ -1,16 +1,15 @@
 import authApi from '@/api/auth-api'
-import { LoginPayload } from '@/models'
-import useSWR from 'swr'
-import { PublicConfiguration } from 'swr/dist/_internal'
+import { LoginPayload, UserProfile } from '@/models'
+import useSWR, { SWRConfiguration } from 'swr'
 // Auth -> protected page
 // <Auth>{children}</Auth>
-export function useAuth(options?: Partial<PublicConfiguration>) {
+export function useAuth(options?: Partial<SWRConfiguration>) {
   // profile
   const {
     data: profile,
     error,
     mutate,
-  } = useSWR('/profile', {
+  } = useSWR<UserProfile | null>('/profile', {
     dedupingInterval: 60 * 60 * 1000, // 1hr
     revalidateOnFocus: false,
     ...options,
@@ -25,7 +24,7 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
   }
   async function logout() {
     await authApi.logout()
-    await mutate({}, false)
+    await mutate(null, false)
   }
   return { profile, error, login, logout, firstLoading }
 }
