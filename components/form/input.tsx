@@ -33,6 +33,8 @@ export function InputField({
       onBlur={onBlur}
       inputRef={ref}
       value={value}
+      error={!!error}
+      helperText={error?.message}
       {...props}
     />
   )

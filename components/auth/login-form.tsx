@@ -4,18 +4,31 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { InputField } from '../form'
 import { LoginPayload } from '@/models'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export interface LoginFormProps {
   onSubmit?: (values: LoginPayload) => void
 }
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
+  const schema = yup.object().shape({
+    username: yup
+      .string()
+      .required('Please enter your username')
+      .min(4, 'Username is required to have at least 4 characters'),
+    password: yup
+      .string()
+      .required('Please enter your password')
+      .min(6, 'Password is required to have at least 6 characters'),
+  })
   const [showPassword, setShowPassword] = useState(false)
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<LoginPayload>({
     defaultValues: {
       username: '',
       password: '',
     },
+    resolver: yupResolver(schema),
   })
   const handleLoginSubmit = (values: LoginPayload) => {
     onSubmit?.(values)
