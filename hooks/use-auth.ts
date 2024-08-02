@@ -1,4 +1,5 @@
 import authApi from '@/api/auth-api'
+import { LoginPayload } from '@/models'
 import useSWR from 'swr'
 import { PublicConfiguration } from 'swr/dist/_internal'
 // Auth -> protected page
@@ -18,11 +19,8 @@ export function useAuth(options?: Partial<PublicConfiguration>) {
 
   const firstLoading = profile === undefined && error === undefined
   // khong su dung try catch o day de cho cho nao su dung thi handle
-  async function login() {
-    await authApi.login({
-      username: 'admin',
-      password: 'admin12312',
-    })
+  async function login(data: LoginPayload) {
+    await authApi.login(data)
     await mutate()
   }
   async function logout() {

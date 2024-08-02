@@ -3,10 +3,13 @@ import { Box, Button, IconButton, InputAdornment } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { InputField } from '../form'
+import { LoginPayload } from '@/models'
 
-export interface LoginFormProps {}
+export interface LoginFormProps {
+  onSubmit?: (values: LoginPayload) => void
+}
 
-export function LoginForm(props: LoginFormProps) {
+export function LoginForm({ onSubmit }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -14,8 +17,8 @@ export function LoginForm(props: LoginFormProps) {
       password: '',
     },
   })
-  const handleLoginSubmit = (value: any) => {
-    console.log(value)
+  const handleLoginSubmit = (values: LoginPayload) => {
+    onSubmit?.(values)
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handleLoginSubmit)}>

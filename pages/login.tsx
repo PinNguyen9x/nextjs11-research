@@ -1,18 +1,18 @@
 import authApi from '@/api/auth-api'
-import * as React from 'react'
-import { useAuth } from '../hooks'
-import { useRouter } from 'next/router'
 import { LoginForm } from '@/components/auth'
+import { LoginPayload } from '@/models'
+import { useRouter } from 'next/router'
+import { useAuth } from '../hooks'
 
 export interface LoginPageProps {}
 
 export default function LoginPage(props: LoginPageProps) {
   const router = useRouter()
   const { profile, login, logout } = useAuth({ revalidateOnMount: false })
-  async function handleLoginClick() {
+  async function handleLoginClick(data: LoginPayload) {
     try {
-      await login()
-      router.push('/about')
+      await login(data)
+      // router.push('/about')
     } catch (error) {
       console.log('fail to login', error)
     }
@@ -36,7 +36,7 @@ export default function LoginPage(props: LoginPageProps) {
     <div>
       <h1>Login Page</h1>
       <p>Profile:{JSON.stringify(profile || {}, null, 4)}</p>
-      <button onClick={handleLoginClick}>Login</button>
+      <button onClick={() => {}}>Login</button>
       <button onClick={getProfile}>Get Profile</button>
       <button onClick={handleLogoutClick}>Logout</button>
       <button
@@ -46,7 +46,7 @@ export default function LoginPage(props: LoginPageProps) {
       >
         Go to about
       </button>
-      <LoginForm />
+      <LoginForm onSubmit={handleLoginClick} />
     </div>
   )
 }

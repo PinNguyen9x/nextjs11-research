@@ -30,7 +30,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
       proxyResponse.on('end', () => {
         try {
           const { accessToken, expiredAt } = JSON.parse(body)
-          console.log({ accessToken, expiredAt })
+          const isSuccess =
+            proxyResponse.statusCode &&
+            proxyResponse.statusCode >= 200 &&
+            proxyResponse.statusCode < 300
+          if (!isSuccess) {
+            ;(res as NextApiResponse<Data>)
+              .status(proxyResponse.statusCode || 500)
+              .json({ message: body })
+            return resolve(true)
+          }
           // convert token to cookies
           const cookies = Cookies(req, res, {
             secure: process.env.NODE_ENV !== 'development',
