@@ -1,37 +1,33 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { Box, Button, IconButton, InputAdornment } from '@mui/material'
+import { Box, Button, CircularProgress, IconButton, InputAdornment } from '@mui/material'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { InputField } from '../form'
 import { LoginPayload } from '@/models'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useLoginFormSchema } from '@/hooks'
 
 export interface LoginFormProps {
   onSubmit?: (values: LoginPayload) => void
 }
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
-  const schema = yup.object().shape({
-    username: yup
-      .string()
-      .required('Please enter your username')
-      .min(4, 'Username is required to have at least 4 characters'),
-    password: yup
-      .string()
-      .required('Please enter your password')
-      .min(6, 'Password is required to have at least 6 characters'),
-  })
+  const schema = useLoginFormSchema()
   const [showPassword, setShowPassword] = useState(false)
-  const { control, handleSubmit } = useForm<LoginPayload>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<LoginPayload>({
     defaultValues: {
       username: '',
       password: '',
     },
     resolver: yupResolver(schema),
   })
-  const handleLoginSubmit = (values: LoginPayload) => {
-    onSubmit?.(values)
+  const handleLoginSubmit = async (values: LoginPayload) => {
+    await onSubmit?.(values)
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handleLoginSubmit)}>
@@ -55,7 +51,14 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           ),
         }}
       />
-      <Button type="submit" variant="contained" sx={{ mt: 3 }} fullWidth>
+      <Button
+        disabled={isSubmitting}
+        startIcon={isSubmitting ? <CircularProgress color="inherit" size="1em" /> : null}
+        type="submit"
+        variant="contained"
+        sx={{ mt: 3 }}
+        fullWidth
+      >
         Login
       </Button>
     </Box>
