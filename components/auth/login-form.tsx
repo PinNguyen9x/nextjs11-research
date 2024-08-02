@@ -55,7 +55,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           ),
         }}
       />
-      <Button type="submit" variant="contained">
+      <Button type="submit" variant="contained" sx={{ mt: 3 }} fullWidth>
         Login
       </Button>
     </Box>
