@@ -1,8 +1,9 @@
-import React from 'react'
 import { LoginForm } from '@/components/auth'
 import { LoginPayload } from '@/models'
+import { getErrorMessage } from '@/utils'
 import { Box, Paper, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import { useAuth } from '../hooks'
 
 export interface LoginPageProps {}
@@ -14,8 +15,9 @@ export default function LoginPage(props: LoginPageProps) {
     try {
       await login(data)
       router.push('/')
-    } catch (error) {
-      console.log('fail to login', error)
+    } catch (error: unknown) {
+      const errorMessage = getErrorMessage(error)
+      toast.error(errorMessage)
     }
   }
 
