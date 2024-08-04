@@ -4,10 +4,6 @@ export const ROUTE_LIST = [
     path: '/',
   },
   {
-    label: 'About',
-    path: '/about',
-  },
-  {
     label: 'Blog',
     path: '/blog',
   },
