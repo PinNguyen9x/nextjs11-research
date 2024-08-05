@@ -1,7 +1,9 @@
 import { MainLayout } from '@/components/layouts'
+import { WorkList } from '@/components/work'
 import { useWorkList } from '@/hooks'
 import { ListParams } from '@/models'
-import { Box, Button } from '@mui/material'
+import { WheelchairPickup } from '@mui/icons-material'
+import { Box, Button, Container, Typography } from '@mui/material'
 import { useState } from 'react'
 
 export interface WorksPageProps {}
@@ -14,26 +16,21 @@ export default function WorksPage(props: WorksPageProps) {
   const { data, isLoading } = useWorkList({
     params: filter,
   })
-  // useEffect(() => {
-  //   ;(async () => {
-  //     try {
-  //       const workList = await workApi.getAll({})
-  //       console.log('worklist: ', workList)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   })()
-  // }, [])
-  console.log({ data, isLoading })
+
   return (
     <Box>
-      Works Page
-      <Button
-        variant="contained"
-        onClick={() => setFilter({ ...filter, _page: (filter?._page || 0) + 1 })}
-      >
-        Next Page
-      </Button>
+      <Container>
+        <Typography component="h1" variant="h5" mt={8} mb={4}>
+          Work
+        </Typography>
+        <WorkList workList={data?.data || []} isLoading={isLoading} />
+        <Button
+          variant="contained"
+          onClick={() => setFilter({ ...filter, _page: (filter?._page || 0) + 1 })}
+        >
+          Next Page
+        </Button>
+      </Container>
     </Box>
   )
 }
