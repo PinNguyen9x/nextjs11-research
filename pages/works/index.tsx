@@ -3,7 +3,7 @@ import { WorkList } from '@/components/work'
 import { useWorkList } from '@/hooks'
 import { ListParams } from '@/models'
 import { WheelchairPickup } from '@mui/icons-material'
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Button, Container, Pagination, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 
 export interface WorksPageProps {}
@@ -17,6 +17,13 @@ export default function WorksPage(props: WorksPageProps) {
     params: filter,
   })
 
+  const { _page, _totalRows, _limit } = data?.pagination || {}
+  const totalPage = !!_totalRows ? Math.ceil(_totalRows / _limit) : 0
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setFilter((_prev) => ({ ..._prev, _page: value }))
+  }
+
   return (
     <Box>
       <Container>
@@ -24,12 +31,11 @@ export default function WorksPage(props: WorksPageProps) {
           Work
         </Typography>
         <WorkList workList={data?.data || []} isLoading={isLoading} />
-        <Button
-          variant="contained"
-          onClick={() => setFilter({ ...filter, _page: (filter?._page || 0) + 1 })}
-        >
-          Next Page
-        </Button>
+        {totalPage > 1 && (
+          <Stack alignItems="center">
+            <Pagination count={totalPage} page={_page} onChange={handlePageChange} />
+          </Stack>
+        )}
       </Container>
     </Box>
   )
