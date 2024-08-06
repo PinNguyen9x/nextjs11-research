@@ -1,29 +1,33 @@
-import { Box, Container, Link as MuiLink, Stack, Typography } from '@mui/material'
-import Link from 'next/link'
-import { PostCard } from './post-card'
 import { Post } from '@/models'
+import { Container, Stack, Typography } from '@mui/material'
+import { Box } from '@mui/system'
+import dynamic from 'next/dynamic'
+import { PostCard } from './post-card'
+
+const ViewAllLink = dynamic(() => import('../common/view-all-link'), { ssr: false })
 
 export function RecentPost() {
   const postList: Post[] = [
     {
-      slug: '',
       id: '1',
+      slug: '',
       title: 'Making a design system from scratch',
-      tagList: ['Design', 'Patterns'],
+      publishedDate: '2022-06-15T03:00:00Z',
+      tagList: ['Design', 'Pattern'],
       description:
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-      publishedDate: '2024-07-29T12:00:00Z',
     },
     {
-      slug: '',
       id: '2',
+      slug: '',
       title: 'Creating pixel perfect icons in Figma',
+      publishedDate: '2022-06-16T03:00:00Z',
       tagList: ['Figma', 'Icon Design'],
       description:
         'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.',
-      publishedDate: '2024-07-29T12:00:00Z',
     },
   ]
+
   return (
     <Box component="section" bgcolor="secondary.light" pt={2} pb={4}>
       <Container>
@@ -34,26 +38,20 @@ export function RecentPost() {
           alignItems="center"
         >
           <Typography variant="h5">Recent Posts</Typography>
-          <Link passHref href="/posts/">
-            <MuiLink
-              sx={{
-                display: {
-                  xs: 'none',
-                  md: 'inline',
-                },
-              }}
-            >
-              View All
-            </MuiLink>
-          </Link>
+
+          <ViewAllLink />
         </Stack>
+
         <Stack
-          direction={{ xs: 'column', md: 'row' }}
+          direction={{
+            xs: 'column',
+            md: 'row',
+          }}
           spacing={3}
           sx={{
             '& > div': {
               width: {
-                sx: '100%',
+                xs: '100%',
                 md: '50%',
               },
             },

@@ -1,10 +1,10 @@
 import { Seo } from '@/components/common'
 import { HeroSection } from '@/components/home'
 import { MainLayout } from '@/components/layouts'
+import { RecentPost } from '@/components/post'
 import { FeatureWork } from '@/components/work/feature-work'
 import { Box } from '@mui/material'
 import { NextPageWithLayout } from '../models'
-import { RecentPost } from '@/components/post'
 
 const Home: NextPageWithLayout = () => {
   return (
