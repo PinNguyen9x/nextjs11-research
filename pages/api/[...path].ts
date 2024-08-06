@@ -22,7 +22,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
   if (accessToken) {
     req.headers.authorization = `Bearer ${accessToken}`
   }
-  return new Promise((resolve) => {
+  return new Promise(() => {
     // don't send cookies to API server
     req.headers.cookie = ''
     proxy.web(req, res, {
@@ -30,6 +30,5 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
       changeOrigin: true,
       selfHandleResponse: false,
     })
-    proxy.once('proxyRes', () => resolve(true))
   })
 }

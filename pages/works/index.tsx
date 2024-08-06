@@ -2,30 +2,38 @@ import { MainLayout } from '@/components/layouts'
 import { WorkFilterForm, WorkList } from '@/components/work'
 import { useWorkList } from '@/hooks'
 import { ListParams, WorkFilterPayload } from '@/models'
-import { WheelchairPickup } from '@mui/icons-material'
-import { Box, Button, Container, Pagination, Stack, Typography } from '@mui/material'
-import { useState } from 'react'
+import { Box, Container, Pagination, Stack, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
 
 export interface WorksPageProps {}
 
 export default function WorksPage(props: WorksPageProps) {
-  const [filter, setFilter] = useState<Partial<ListParams>>({
+  const router = useRouter()
+
+  const filter: Partial<ListParams> = {
     _page: 1,
     _limit: 10,
-  })
+    ...router.query,
+  }
+  const initialFilter: WorkFilterPayload = {
+    search: filter.title_like || '',
+  }
   const { data, isLoading } = useWorkList({
     params: filter,
+    enabled: !!router.isReady,
   })
 
   const { _page, _totalRows, _limit } = data?.pagination || {}
   const totalPage = !!_totalRows ? Math.ceil(_totalRows / _limit) : 0
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setFilter((_prev) => ({ ..._prev, _page: value }))
+    router.push({ query: { ...filter, _page: value } }, undefined, { shallow: true })
   }
 
   const handleFilterChange = (newFilters: WorkFilterPayload) => {
-    setFilter((_prev) => ({ ..._prev, _page: 1, title_like: newFilters.search }))
+    router.push({ query: { ...filter, _page: 1, title_like: newFilters.search } }, undefined, {
+      shallow: true,
+    })
   }
 
   return (
@@ -34,7 +42,9 @@ export default function WorksPage(props: WorksPageProps) {
         <Typography component="h1" variant="h5" mt={8} mb={4}>
           Work
         </Typography>
-        <WorkFilterForm onSubmit={handleFilterChange} />
+        {router.isReady && (
+          <WorkFilterForm onSubmit={handleFilterChange} initialFilter={initialFilter} />
+        )}
         <WorkList workList={data?.data || []} isLoading={isLoading} />
         {totalPage > 1 && (
           <Stack alignItems="center">
