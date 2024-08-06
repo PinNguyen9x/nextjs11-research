@@ -3,6 +3,9 @@ export interface LoginPayload {
   password: string
 }
 
+export interface WorkFilterPayload {
+  search: string
+}
 export interface UserProfile {
   username: string
   email?: string

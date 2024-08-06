@@ -1,7 +1,7 @@
 import { MainLayout } from '@/components/layouts'
-import { WorkList } from '@/components/work'
+import { WorkFilterForm, WorkList } from '@/components/work'
 import { useWorkList } from '@/hooks'
-import { ListParams } from '@/models'
+import { ListParams, WorkFilterPayload } from '@/models'
 import { WheelchairPickup } from '@mui/icons-material'
 import { Box, Button, Container, Pagination, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
@@ -24,12 +24,17 @@ export default function WorksPage(props: WorksPageProps) {
     setFilter((_prev) => ({ ..._prev, _page: value }))
   }
 
+  const handleFilterChange = (newFilters: WorkFilterPayload) => {
+    setFilter((_prev) => ({ ..._prev, _page: 1, title_like: newFilters.search }))
+  }
+
   return (
     <Box>
       <Container>
         <Typography component="h1" variant="h5" mt={8} mb={4}>
           Work
         </Typography>
+        <WorkFilterForm onSubmit={handleFilterChange} />
         <WorkList workList={data?.data || []} isLoading={isLoading} />
         {totalPage > 1 && (
           <Stack alignItems="center">
