@@ -3,7 +3,7 @@ import { Search } from '@mui/icons-material'
 import { Box, debounce, InputAdornment } from '@mui/material'
 import { ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
-import { InputField } from '../form'
+import { AutocompleteField, InputField } from '../form'
 
 export interface WorkFilterProps {
   initialFilter?: WorkFilterPayload
@@ -11,18 +11,16 @@ export interface WorkFilterProps {
 }
 
 export function WorkFilterForm({ initialFilter, onSubmit }: WorkFilterProps) {
-  const {
-    control,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<WorkFilterPayload>({
+  const { control, handleSubmit } = useForm<WorkFilterPayload>({
     defaultValues: {
       search: '',
+      selectedTagList: [],
       ...initialFilter,
     },
   })
   const handleSearchSubmit = async (values: WorkFilterPayload) => {
-    await onSubmit?.(values)
+    console.log('Value Selected:', values)
+    // await onSubmit?.(values)
   }
 
   const debounceSearchChange = debounce(handleSubmit(handleSearchSubmit), 350)
@@ -42,6 +40,19 @@ export function WorkFilterForm({ initialFilter, onSubmit }: WorkFilterProps) {
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
           debounceSearchChange()
         }}
+      />
+      <AutocompleteField
+        name="selectedTagList"
+        placeholder="Categories"
+        control={control}
+        label="Filter by category"
+        options={[
+          { title: 'Category 1', key: 'c1' },
+          { title: 'Category 2', key: 'c2' },
+        ]}
+        getOptionLabel={(option) => option.title}
+        isOptionEqualToValue={(option, value) => option.key === value.key}
+        onChange={() => debounceSearchChange()}
       />
     </Box>
   )

@@ -5,6 +5,8 @@ export interface LoginPayload {
 
 export interface WorkFilterPayload {
   search: string
+  tagList_like: string
+  selectedTagList?: string[]
 }
 export interface UserProfile {
   username: string
