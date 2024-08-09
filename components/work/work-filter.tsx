@@ -1,3 +1,4 @@
+import { useTagList } from '@/hooks'
 import { WorkFilterPayload } from '@/models'
 import { Search } from '@mui/icons-material'
 import { Box, debounce, InputAdornment } from '@mui/material'
@@ -11,6 +12,9 @@ export interface WorkFilterProps {
 }
 
 export function WorkFilterForm({ initialFilter, onSubmit }: WorkFilterProps) {
+  const { data } = useTagList({})
+  const tagList = data?.data || []
+
   const { control, handleSubmit } = useForm<WorkFilterPayload>({
     defaultValues: {
       search: '',
@@ -18,9 +22,10 @@ export function WorkFilterForm({ initialFilter, onSubmit }: WorkFilterProps) {
       ...initialFilter,
     },
   })
-  const handleSearchSubmit = async (values: WorkFilterPayload) => {
-    console.log('Value Selected:', values)
-    // await onSubmit?.(values)
+  const handleSearchSubmit = async (payload: WorkFilterPayload) => {
+    payload.tagList_like = payload.selectedTagList?.join('|') || ''
+    delete payload.selectedTagList
+    await onSubmit?.(payload)
   }
 
   const debounceSearchChange = debounce(handleSubmit(handleSearchSubmit), 350)
@@ -46,12 +51,9 @@ export function WorkFilterForm({ initialFilter, onSubmit }: WorkFilterProps) {
         placeholder="Categories"
         control={control}
         label="Filter by category"
-        options={[
-          { title: 'Category 1', key: 'c1' },
-          { title: 'Category 2', key: 'c2' },
-        ]}
-        getOptionLabel={(option) => option.title}
-        isOptionEqualToValue={(option, value) => option.key === value.key}
+        options={tagList}
+        getOptionLabel={(option) => option}
+        isOptionEqualToValue={(option, value) => option === value}
         onChange={() => debounceSearchChange()}
       />
     </Box>

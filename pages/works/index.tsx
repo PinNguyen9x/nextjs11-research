@@ -17,6 +17,7 @@ export default function WorksPage(props: WorksPageProps) {
   }
   const initialFilter: WorkFilterPayload = {
     search: filter.title_like || '',
+    selectedTagList: filter.tagList_like?.split('|') || [],
   }
   const { data, isLoading } = useWorkList({
     params: filter,
@@ -31,9 +32,20 @@ export default function WorksPage(props: WorksPageProps) {
   }
 
   const handleFilterChange = (newFilters: WorkFilterPayload) => {
-    router.push({ query: { ...filter, _page: 1, title_like: newFilters.search } }, undefined, {
-      shallow: true,
-    })
+    router.push(
+      {
+        query: {
+          ...filter,
+          _page: 1,
+          title_like: newFilters.search,
+          tagList_like: newFilters.tagList_like,
+        },
+      },
+      undefined,
+      {
+        shallow: true,
+      },
+    )
   }
 
   return (

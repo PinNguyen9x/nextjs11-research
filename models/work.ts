@@ -8,3 +8,9 @@ export interface Work {
   updatedAt: string
   thumbnailUrl: string
 }
+
+export interface WorkFilterPayload {
+  search: string
+  tagList_like?: string
+  selectedTagList?: string[]
+}

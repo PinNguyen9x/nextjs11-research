@@ -1,14 +1,19 @@
-import workApi from '@/api-client/work-api'
+import tagApi from '@/api-client/tag-api'
 import { QueryKeys } from '@/constants'
 import { ListParams } from '@/models'
 import useSWR, { SWRConfiguration } from 'swr'
-export interface UseWorkListProps {
-  params: Partial<ListParams>
+export interface UseTagListProps {
+  params?: Partial<ListParams>
   options?: SWRConfiguration
-  enabled?: boolean
 }
-export function useWorkList({ enabled = true, params, options }: UseWorkListProps) {
-  return useSWR(enabled ? [QueryKeys.GET_WORK_LIST, params] : null, () => workApi.getAll(params), {
+export function useTagList({
+  params = {
+    _page: 1,
+    _limit: 30,
+  },
+  options,
+}: UseTagListProps) {
+  return useSWR([QueryKeys.GET_TAG_LIST, params], () => tagApi.getAll(params), {
     dedupingInterval: 30 * 1000, // 30s
     keepPreviousData: true,
     fallbackData: {
