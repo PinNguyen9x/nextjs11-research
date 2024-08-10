@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { AutocompleteField, InputField } from '../form'
+import { AutocompleteField, InputField, PhotoField } from '../form'
 
 export interface WorkFormProps {
   initialValues?: Partial<WorkPayload>
@@ -26,6 +26,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
       title: '',
       shortDescription: '',
       tagList: [],
+      thumbnail: null,
       ...initialValues,
     },
     resolver: yupResolver(schema) as any,
@@ -56,6 +57,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
         getOptionLabel={(option) => option}
         isOptionEqualToValue={(option, value) => option === value}
       />
+      <PhotoField name="thumbnail" control={control} label="Thumbnail" />
       <Button variant="contained" type="submit">
         {!!initialValues?.id ? 'Save' : 'Submit'}
       </Button>
