@@ -21,7 +21,7 @@ export function Footer() {
     },
   ]
   return (
-    <Box component={'footer'} sx={{ py: 3, px: 2, textAlign: 'center' }}>
+    <Box component="footer" sx={{ py: 3, px: 2, textAlign: 'center' }}>
       <Stack direction="row" justifyContent="center">
         {socialLinks.map((link, index) => (
           <Box
@@ -32,7 +32,7 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Icon component={link.icon} sx={{ fontSize: 48 }} />
+            <Icon width={5} height={5} component={link.icon} sx={{ fontSize: 48 }} />
           </Box>
         ))}
       </Stack>
