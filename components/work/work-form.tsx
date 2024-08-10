@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Box, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { InputField } from '../form'
+import { AutocompleteField, InputField } from '../form'
 
 export interface WorkFormProps {
   initialValues?: Partial<WorkPayload>
@@ -18,6 +18,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
   const schema = yup.object().shape({
     title: yup.string().required('Please enter work title'),
     shortDescription: yup.string().required('Please enter work short description'),
+    tagList: yup.array().of(yup.string()).min(1, 'Please select at least one category'),
   })
 
   const { control, handleSubmit } = useForm<Partial<WorkPayload>>({
@@ -29,6 +30,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
     resolver: yupResolver(schema) as any,
   })
   const handleSearchSubmit = async (payload: Partial<WorkPayload>) => {
+    console.log('value: ', payload)
     // await onSubmit?.(payload)
   }
 
@@ -45,16 +47,14 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
           rows: 3,
         }}
       />
-      {/* <AutocompleteField
-        name="selectedTagList"
-        placeholder="Categories"
+      <AutocompleteField
+        name="tagList"
         control={control}
         label="Filter by category"
         options={tagList}
         getOptionLabel={(option) => option}
         isOptionEqualToValue={(option, value) => option === value}
-        onChange={() => debounceSearchChange()}
-      /> */}
+      />
       <Button variant="contained" type="submit">
         {!!initialValues?.id ? 'Save' : 'Submit'}
       </Button>
