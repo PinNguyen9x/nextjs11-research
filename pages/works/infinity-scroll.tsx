@@ -13,8 +13,6 @@ export default function InfinityScroll(props: InfinityScrollProps) {
   const router = useRouter()
 
   const filter: Partial<ListParams> = {
-    _page: 1,
-    _limit: 10,
     ...router.query,
   }
   const initialFilter: WorkFilterPayload = {
@@ -25,13 +23,7 @@ export default function InfinityScroll(props: InfinityScrollProps) {
     params: filter,
     enabled: !!router.isReady,
   })
-  console.log({
-    data,
-    isLoading,
-    size,
-    setSize,
-    isValidating,
-  })
+
   const { ref } = useInView({
     onChange: (inView) => {
       if (inView) setSize((x) => x + 1)
