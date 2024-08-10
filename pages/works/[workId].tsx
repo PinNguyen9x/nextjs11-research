@@ -1,4 +1,5 @@
 import { MainLayout } from '@/components/layouts'
+import { WorkForm } from '@/components/work'
 import { useWorkDetails } from '@/hooks'
 import { Box, Container, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -9,10 +10,11 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
   const router = useRouter()
   const { workId } = router.query || {}
   const isAddMode = workId === 'add'
-  const { data, isLoading } = useWorkDetails({
+  const { data: workDetails, isLoading } = useWorkDetails({
     workId: (workId as string) || '',
     enabled: router.isReady && !isAddMode,
   })
+
   return (
     <Box>
       <Container>
@@ -23,6 +25,10 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus porro amet quam sequi
           quia, delectus error voluptas voluptatem explicabo. Laborum molestiae modi similique,
           nostrum voluptates sit blanditiis adipisci nobis. Ipsa?
+        </Box>
+        <Box>
+          {isAddMode ||
+            (!!workDetails && <WorkForm initialValues={workDetails} onSubmit={() => {}} />)}
         </Box>
       </Container>
     </Box>
