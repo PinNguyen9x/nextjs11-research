@@ -27,8 +27,9 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
           nostrum voluptates sit blanditiis adipisci nobis. Ipsa?
         </Box>
         <Box>
-          {isAddMode ||
-            (!!workDetails && <WorkForm initialValues={workDetails} onSubmit={() => {}} />)}
+          {(isAddMode || !!workDetails) && (
+            <WorkForm initialValues={workDetails} onSubmit={() => {}} />
+          )}
         </Box>
       </Container>
     </Box>

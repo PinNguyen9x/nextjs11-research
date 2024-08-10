@@ -25,6 +25,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
     defaultValues: {
       title: '',
       shortDescription: '',
+      tagList: [],
       ...initialValues,
     },
     resolver: yupResolver(schema) as any,
