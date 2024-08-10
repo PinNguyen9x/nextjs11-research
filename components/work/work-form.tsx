@@ -40,6 +40,10 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
         label="Short description"
         placeholder="Input short description"
         control={control}
+        InputProps={{
+          multiline: true,
+          rows: 3,
+        }}
       />
       {/* <AutocompleteField
         name="selectedTagList"
