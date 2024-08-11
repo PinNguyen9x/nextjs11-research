@@ -1,10 +1,26 @@
 import { Box, FormHelperText, Typography } from '@mui/material'
 import dynamic from 'next/dynamic'
+import { LegacyRef, useRef } from 'react'
 import { Control, FieldValues, Path, useController } from 'react-hook-form'
-// import ReactQuill from 'react-quill'
+import ReactQuill, { ReactQuillProps } from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+// import ReactQuill from 'react-quill'
+// const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+interface ReactQuillWrapperProps extends ReactQuillProps {
+  forwardRef: LegacyRef<ReactQuill>
+}
+const ReactQuillWrapper = dynamic(
+  async () => {
+    const { default: RQ } = await import('react-quill')
+    const Component = ({ forwardRef, ...props }: ReactQuillWrapperProps) => {
+      return <RQ ref={forwardRef} {...props} />
+    }
+    return Component
+  },
+  {
+    ssr: false,
+  },
+)
 
 type EditorFieldProps<T extends FieldValues> = {
   name: Path<T>
@@ -52,11 +68,14 @@ export function EditorField<T extends FieldValues>({ name, label, control }: Edi
     'background',
   ]
 
+  const editorRef = useRef(null)
+
   return (
     <Box>
       <Typography variant="body2">{label}</Typography>
       <Box>
-        <ReactQuill
+        <ReactQuillWrapper
+          forwardRef={editorRef}
           theme="snow"
           modules={modules}
           formats={formats}
