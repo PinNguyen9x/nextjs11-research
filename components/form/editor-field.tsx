@@ -20,12 +20,43 @@ export function EditorField<T extends FieldValues>({ name, label, control }: Edi
     name,
     control,
   })
+  const modules = {
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, 4, 5, false] }],
+        [{ color: [] }, { background: [] }],
+        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+        [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+        ['link', 'image'],
+        ['clean'],
+      ],
+      handlers: {
+        // image: imageHandler,
+      },
+    },
+  }
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'color',
+    'background',
+  ]
 
   return (
     <Box>
       <Typography variant="body2">{label}</Typography>
       <Box>
-        <ReactQuill theme="snow" value={value} />
+        <ReactQuill theme="snow" modules={modules} formats={formats} />
       </Box>
       <FormHelperText error={!!error}>{error?.message}</FormHelperText>
     </Box>
