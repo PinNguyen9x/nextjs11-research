@@ -45,5 +45,5 @@ export function useAuth(options?: Partial<SWRConfiguration>) {
     await mutate(null, false)
     localStorage.removeItem(StorageKeys.USER_INFO)
   }
-  return { profile, error, login, logout, firstLoading }
+  return { profile, error, login, logout, firstLoading, isLoggedIn: !!profile?.username }
 }

@@ -1,4 +1,3 @@
-import workApi from '@/api-client/work-api'
 import { MainLayout } from '@/components/layouts'
 import { WorkForm } from '@/components/work'
 import { useAddWork, useWorkDetails } from '@/hooks'
@@ -58,3 +57,4 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
 }
 
 AddEditWorkPage.Layout = MainLayout
+AddEditWorkPage.requireLogin = true

@@ -11,7 +11,7 @@ export function HeaderDesktop(props: HedarDesktopProps) {
   const { profile, logout } = useAuth()
   const router = useRouter()
   const isLoggedIn = !!profile?.username
-  const routeList = ROUTE_LIST.filter((route) => !route.requireLogin || isLoggedIn)
+  const routeList = ROUTE_LIST.filter((route) => !route?.requireLogin || isLoggedIn)
   // const [routeList, setRouteList] = useState(() =>
   //   ROUTE_LIST.filter((route) => !route.requireLogin),
   // )
