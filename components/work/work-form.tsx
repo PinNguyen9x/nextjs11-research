@@ -8,7 +8,7 @@ import { AutocompleteField, EditorField, InputField, PhotoField } from '../form'
 
 export interface WorkFormProps {
   initialValues?: Partial<WorkPayload>
-  onSubmit?: (values: Partial<WorkPayload>) => void
+  onSubmit?: (values: FormData) => void
 }
 
 export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
@@ -38,7 +38,11 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
       }),
   })
 
-  const { control, handleSubmit } = useForm<Partial<WorkPayload>>({
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<Partial<WorkPayload>>({
     defaultValues: {
       title: '',
       shortDescription: '',
@@ -53,13 +57,33 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
     },
     resolver: yupResolver(schema) as any,
   })
-  const handleSearchSubmit = async (payload: Partial<WorkPayload>) => {
-    console.log('value: ', payload)
-    // await onSubmit?.(payload)
+  const handleWorkSubmit = async (formValues: Partial<WorkPayload>) => {
+    const payload = new FormData()
+    if (formValues.id) {
+      payload.set('id', formValues.id)
+    }
+    if (formValues.thumbnail?.file) {
+      payload.set('thumbnail', formValues.thumbnail.file)
+    }
+    formValues.tagList?.forEach((tag) => {
+      payload.append('tagList', tag)
+    })
+
+    const keyList: Array<keyof Partial<WorkPayload>> = [
+      'title',
+      'shortDescription',
+      'fullDescription',
+    ]
+    keyList.forEach((key) => {
+      if (formValues[key] !== initialValues?.[key]) {
+        payload.set(key, formValues[key] as string)
+      }
+    })
+    await onSubmit?.(payload)
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit(handleSearchSubmit)}>
+    <Box component="form" onSubmit={handleSubmit(handleWorkSubmit)}>
       <InputField name="title" label="Title" placeholder="Input work title" control={control} />
       <InputField
         name="shortDescription"
@@ -81,7 +105,7 @@ export function WorkForm({ initialValues, onSubmit }: WorkFormProps) {
       />
       <PhotoField name="thumbnail" control={control} label="Thumbnail" />
       <EditorField name="fullDescription" control={control} label="Full description" />
-      <Button variant="contained" type="submit">
+      <Button variant="contained" type="submit" size="medium" disabled={!isValid}>
         {!!initialValues?.id ? 'Save' : 'Submit'}
       </Button>
     </Box>

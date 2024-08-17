@@ -7,10 +7,21 @@ export interface UseWorkDetailsProps {
   enabled?: boolean
 }
 export function useWorkDetails({ enabled = true, workId, options }: UseWorkDetailsProps) {
-  return useSWR(enabled ? [QueryKeys.GET_WORK_DETAILS, workId] : null, () => workApi.get(workId), {
-    dedupingInterval: 30 * 1000, // 30s
-    keepPreviousData: true,
-    fallbackData: null,
-    ...options,
-  })
+  const swrResponse = useSWR(
+    enabled ? [QueryKeys.GET_WORK_DETAILS, workId] : null,
+    () => workApi.get(workId),
+    {
+      dedupingInterval: 30 * 1000, // 30s
+      keepPreviousData: true,
+      fallbackData: null,
+      ...options,
+    },
+  )
+
+  async function updateWork(payload: FormData) {
+    await workApi.update(payload)
+    swrResponse.mutate()
+  }
+
+  return { ...swrResponse, updateWork }
 }

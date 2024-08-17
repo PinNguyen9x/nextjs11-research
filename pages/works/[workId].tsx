@@ -1,9 +1,11 @@
+import workApi from '@/api-client/work-api'
 import { MainLayout } from '@/components/layouts'
 import { WorkForm } from '@/components/work'
 import { useWorkDetails } from '@/hooks'
 import { Box, Container, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
+import { toast } from 'react-toastify'
 
 export interface AddEditWorkPageProps {}
 
@@ -11,11 +13,28 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
   const router = useRouter()
   const { workId } = router.query || {}
   const isAddMode = workId === 'add'
-  const { data: workDetails, isLoading } = useWorkDetails({
+  const {
+    data: workDetails,
+    isLoading,
+    updateWork,
+  } = useWorkDetails({
     workId: (workId as string) || '',
     enabled: router.isReady && !isAddMode,
   })
-
+  const handleSubmit = async (payload: FormData) => {
+    console.log('payload update', payload)
+    try {
+      if (isAddMode) {
+        await workApi.add(payload)
+      } else {
+        await updateWork(payload)
+        toast.success('Update success!')
+      }
+    } catch (error) {
+      console.log(error)
+      toast.error('Update failed!')
+    }
+  }
   return (
     <Box>
       <Container>
@@ -29,7 +48,7 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
         </Box>
         <Box>
           {(isAddMode || !!workDetails) && (
-            <WorkForm initialValues={workDetails} onSubmit={() => {}} />
+            <WorkForm initialValues={workDetails} onSubmit={handleSubmit} />
           )}
         </Box>
       </Container>
