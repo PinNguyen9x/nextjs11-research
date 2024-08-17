@@ -1,7 +1,8 @@
 import workApi from '@/api-client/work-api'
 import { MainLayout } from '@/components/layouts'
 import { WorkForm } from '@/components/work'
-import { useWorkDetails } from '@/hooks'
+import { useAddWork, useWorkDetails } from '@/hooks'
+import { getErrorMessage } from '@/utils'
 import { Box, Container, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
@@ -13,26 +14,25 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
   const router = useRouter()
   const { workId } = router.query || {}
   const isAddMode = workId === 'add'
-  const {
-    data: workDetails,
-    isLoading,
-    updateWork,
-  } = useWorkDetails({
+  const { data: workDetails, updateWork } = useWorkDetails({
     workId: (workId as string) || '',
     enabled: router.isReady && !isAddMode,
   })
+  const addNewWork = useAddWork()
   const handleSubmit = async (payload: FormData) => {
-    console.log('payload update', payload)
     try {
+      let newWork = null
       if (isAddMode) {
-        await workApi.add(payload)
+        newWork = await addNewWork(payload)
+        toast.success(`Add success!, ${newWork?.id}`)
       } else {
-        await updateWork(payload)
+        newWork = await updateWork(payload)
         toast.success('Update success!')
       }
+      router.push(`/works/${newWork?.id}`)
     } catch (error) {
-      console.log(error)
-      toast.error('Update failed!')
+      const errorMessage = getErrorMessage(error)
+      toast.error(errorMessage)
     }
   }
   return (

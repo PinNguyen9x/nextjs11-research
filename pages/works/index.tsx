@@ -2,7 +2,7 @@ import { MainLayout } from '@/components/layouts'
 import { WorkFilterForm, WorkList } from '@/components/work'
 import { useWorkList } from '@/hooks'
 import { ListParams, WorkFilterPayload } from '@/models'
-import { Box, Container, Pagination, Stack, Typography } from '@mui/material'
+import { Box, Button, Container, Pagination, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 
 export interface WorksPageProps {}
@@ -54,6 +54,9 @@ export default function WorksPage(props: WorksPageProps) {
         <Typography component="h1" variant="h5" mt={8} mb={4}>
           Work
         </Typography>
+        <Button variant="contained" onClick={() => router.push('/works/add')}>
+          Add work
+        </Button>
         {router.isReady && (
           <WorkFilterForm onSubmit={handleFilterChange} initialFilter={initialFilter} />
         )}

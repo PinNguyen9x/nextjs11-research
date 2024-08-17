@@ -9,7 +9,7 @@ export const ROUTE_LIST = [
   },
   {
     label: 'Works',
-    path: '/works',
+    path: '/works?_page=1&_limit=10',
     requireLogin: true,
   },
 ]
