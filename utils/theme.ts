@@ -78,6 +78,14 @@ export let theme = createTheme({
             fontSize: '16px',
           },
         },
+        {
+          props: { color: 'primary' },
+          style: {
+            color: 'white',
+            fontSize: '16px',
+            fontWeight: 'bold',
+          },
+        },
       ],
     },
   },
