@@ -48,6 +48,7 @@ export default function WorksPage(props: WorksPageProps) {
       },
     )
   }
+  if (!router.isReady) return null
 
   return (
     <Box>

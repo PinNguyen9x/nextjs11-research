@@ -1,6 +1,6 @@
 import { LoginForm } from '@/components/auth'
 import { LoginPayload } from '@/models'
-import { getErrorMessage } from '@/utils'
+import { decodeUrl, getErrorMessage } from '@/utils'
 import { Box, Paper, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
@@ -14,7 +14,9 @@ export default function LoginPage(props: LoginPageProps) {
   async function handleLoginClick(data: LoginPayload) {
     try {
       await login(data)
-      router.push('/')
+      const { back_to } = router.query
+      const backTo = back_to ? decodeUrl(back_to as string) : '/'
+      router.push(backTo)
     } catch (error: unknown) {
       const errorMessage = getErrorMessage(error)
       toast.error(errorMessage)
