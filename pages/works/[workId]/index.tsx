@@ -28,7 +28,7 @@ export default function AddEditWorkPage(props: AddEditWorkPageProps) {
         newWork = await updateWork(payload)
         toast.success('Update success!')
       }
-      router.push(`/works/${newWork?.id}`)
+      router.push(`/works/${newWork?.id}/details`)
     } catch (error) {
       const errorMessage = getErrorMessage(error)
       toast.error(errorMessage)

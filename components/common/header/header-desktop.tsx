@@ -1,9 +1,9 @@
 import { useAuth } from '@/hooks'
+import { encodeUrl } from '@/utils'
 import { Box, Container, Link as MuiLink, Stack } from '@mui/material'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { ROUTE_LIST } from './routes'
 
 export interface HedarDesktopProps {}
@@ -40,7 +40,7 @@ export function HeaderDesktop(props: HedarDesktopProps) {
             </Link>
           ))}
           {!isLoggedIn && (
-            <Link href="/login">
+            <Link href={`/login?back_to=${encodeUrl(router.asPath)}`}>
               <MuiLink sx={{ ml: 2, fontWeight: 'medium' }}>Login</MuiLink>
             </Link>
           )}

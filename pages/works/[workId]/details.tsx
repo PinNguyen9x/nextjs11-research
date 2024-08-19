@@ -1,7 +1,9 @@
 import { MainLayout } from '@/components/layouts'
+import { useAuth } from '@/hooks'
 import { Work } from '@/models'
-import { Box, Chip, Container, Stack, Typography } from '@mui/material'
+import { Box, Button, Chip, Container, Stack, Typography } from '@mui/material'
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
 import sanitizeHtml from 'sanitize-html'
 
 export interface WorkDetailsProps {
@@ -9,6 +11,9 @@ export interface WorkDetailsProps {
 }
 
 export default function WorkDetails({ work }: WorkDetailsProps) {
+  const router = useRouter()
+  const { isLoggedIn } = useAuth()
+
   return (
     <Box>
       <Container>
@@ -16,7 +21,16 @@ export default function WorkDetails({ work }: WorkDetailsProps) {
           Work details
         </Typography>
         <Box>
-          <Typography variant="h5">{work.title}</Typography>
+          <Stack mb={4} mt={8} direction="row" justifyContent="space-between" alignItems="center">
+            <Typography component="h1" variant="h5" mt={8} mb={4}>
+              {work.title}
+            </Typography>
+            {isLoggedIn && (
+              <Button variant="contained" onClick={() => router.push(`/works/${work.id}`)}>
+                Edit
+              </Button>
+            )}
+          </Stack>
           <Stack direction="row" my={2}>
             <Chip
               label={new Date(Number(work.createdAt)).getFullYear()}
